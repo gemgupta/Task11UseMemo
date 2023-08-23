@@ -4,17 +4,23 @@ import classes from "./DemoList.module.css";
 
 const DemoList = (props) => {
   const [title, settitle] = useState("Ascending");
-  const ChangeType =() => {
+  const ChangeType = () => {
     settitle((prevTitle) =>
       prevTitle === "Ascending" ? "Decending" : "Ascending"
     );
   };
+  const Ascending = useMemo(() => {
+    console.log('Asc')
+    return props.items.sort((a, b) => a - b);
+  }, [props.items]);
+  const Decending = useMemo(() => {
+    console.log('Des')
+    return props.items.sort((a, b) => b - a);
+  }, [props.items]);
 
   const sortedList = useMemo(() => {
-    return title === "Ascending"
-      ? props.items.sort((a, b) => b - a)
-      : props.items.sort((a, b) => a - b);
-  }, [props.items, title]);
+    return title === "Ascending" ? Decending : Ascending;
+  }, [ title]);
 
   return (
     <div className={classes.list}>
